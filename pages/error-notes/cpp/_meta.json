@@ -1,7 +1,0 @@
-{
-  "01-Wsign-compare": "01-Wsign-compare",
-  "02-Wreorder-warning": "02-Wreorder-warning",
-  "03-segmentation-fault": "03-segmentation-fault",
-  "04-memory-leak": "04-memory-leak",
-  "05-linker-error": "05-linker-error"
-}
