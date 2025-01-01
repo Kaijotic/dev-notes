@@ -1,5 +1,5 @@
 # Dev notes
 
-These are the notes from my journey in learning software development.
+These are the notes from my journey in learning game development.
 
-**[b5h22's Dev notes](https://b5h22.github.io/dev-notes/)**
+**[kaito's Dev notes](https://kaijotic.github.io/dev-notes/)**
