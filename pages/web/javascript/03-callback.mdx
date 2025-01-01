@@ -1,0 +1,126 @@
+# Callback
+- Asynchronous programming allows programs to perform long-running tasks without causing delays. Callbacks are functions passed to other functions to be executed once a task is complete.
+- A callback is a function passed into another function as an argument, which is then invoked inside the outer function to complete some action or task.
+
+## Callback Functions in Asynchronous Programming
+- Callback functions are a fundamental part of asynchronous programming. They enable executing code once a task is complete, ensuring proper sequencing.
+
+```javascript
+function fetchData(callback) {
+  setTimeout(() => {
+    console.log("Data fetched!");
+    callback();
+  }, 1000);
+}
+
+function processData() {
+  console.log("Processing data...");
+}
+
+fetchData(processData);
+```
+>  `fetchData` simulates an asynchronous task (like fetching data) using `setTimeout`. Once the task is complete, it calls the `callback` function, `processData`. This ensures `processData` runs only after the data is fetched.
+
+<br />
+
+## Structuring Execution Order with Callbacks
+- Defining functions with callbacks allows for structuring the execution order of tasks. This is particularly useful when one task depends on the completion of another.
+
+```javascript
+function getUser(id, callback) {
+  setTimeout(() => {
+    console.log(`User with id ${id} retrieved`);
+    callback(id);
+  }, 1000);
+}
+
+function getOrders(userId) {
+  console.log(`Fetching orders for user ${userId}`);
+}
+
+getUser(1, getOrders);
+```
+>  `getUser` fetches a user by ID and then calls `getOrders` with the user's ID as a parameter. This structure ensures that orders are fetched only after the user information is retrieved.
+
+<br />
+
+## Ensuring Sequential Database Operations
+- In scenarios like connecting to a database and querying data, callbacks can ensure that the connection is established before executing the query.
+
+```javascript
+function connectToDatabase(callback) {
+  setTimeout(() => {
+    console.log("Connected to database");
+    callback();
+  }, 1000);
+}
+
+function queryDatabase() {
+  console.log("Querying the database...");
+}
+
+connectToDatabase(queryDatabase);
+```
+> The `connectToDatabase` function simulates establishing a database connection and then calls `queryDatabase` to execute a query. This ensures that the database query runs only after a successful connection.
+
+<br />
+
+## Flexible Callbacks with Parameters
+- Callback functions can be flexible by accepting parameters. This enables them to handle different inputs or perform specific actions based on the provided data.
+
+```javascript
+function fetchData(callback) {
+  setTimeout(() => {
+    const data = { name: "John", age: 30 };
+    callback(data);
+  }, 1000);
+}
+
+function processUserData(user) {
+  console.log(`User Name: ${user.name}, Age: ${user.age}`);
+}
+
+fetchData(processUserData);
+```
+> `fetchData` retrieves user data and passes it to the `processUserData` callback. This allows `processUserData` to operate on the provided user data.
+
+<br />
+
+## Passing Callback Functions Correctly
+- When passing a callback function as an argument, it's crucial to pass it without executing it (without using parentheses). This ensures that the function is passed as a reference and not its return value.
+
+```javascript
+function greet(name, callback) {
+  console.log(`Hello, ${name}!`);
+  callback();
+}
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+
+greet("Alice", sayGoodbye);
+```
+> When calling `greet`, the `sayGoodbye` function is passed as a reference. If we had written `sayGoodbye()`, it would execute immediately and pass its return value instead of the function itself.
+
+<br />
+
+## Combining Asynchronous Programming and Callbacks
+- By combining the concepts of asynchronous programming and callbacks, we can build programs that efficiently handle long-running tasks while maintaining responsiveness and proper execution order.
+
+```javascript
+function downloadFile(url, callback) {
+  console.log(`Starting download from ${url}`);
+  setTimeout(() => {
+    console.log("Download complete");
+    callback();
+  }, 2000);
+}
+
+function unzipFile() {
+  console.log("Unzipping file...");
+}
+
+downloadFile("http://example.com/file.zip", unzipFile);
+```
+> This example shows downloading a file asynchronously. Once the download is complete, the `unzipFile` callback runs. This approach ensures the program can continue other tasks while waiting for the download to finish and only unzips the file after the download completes.

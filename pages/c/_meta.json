@@ -1,0 +1,11 @@
+{
+  "01-basics": "01-Basics",
+  "02-types": "02-Types",
+  "03-simple-calculation": "03-Simple Calculation",
+  "04-expression": "04-Expression",
+  "05-logic": "05-Logic",
+  "06-array": "06-Array",
+  "07-structures": "07-Structures",
+  "08-function": "08-Function",
+  "09-pointer": "09-Pointer"
+}

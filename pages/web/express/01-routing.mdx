@@ -1,0 +1,181 @@
+# Routing
+Express.js makes it straightforward to set up a web server, handle routing, and respond to HTTP requests. Here is a basic example of setting up an Express server that responds to GET requests on the root route:
+```js
+const express = require('express');
+const app = express();
+
+const HTTP_PORT = process.env.PORT || 8080;
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+app.listen(HTTP_PORT, () => console.log(`server listening on: ${HTTP_PORT}`));
+```
+> From the above code, three essential objects are used to configure the server: `app`, `req`, and `res`.
+
+## The Application Object
+The `app` object represents the main application in Express. It provides methods to handle routing, set up middleware, and manage view engines.
+
+### app.all()
+Registers a callback for a route that matches any HTTP method (GET, PUT, POST, DELETE, etc.).
+```js
+app.all('/http-testing', (req, res) => {
+  res.send('test complete');
+});
+```
+
+### HTTP Verb Methods
+Responds to requests using specific HTTP methods.
+```js
+app.get('/get-test', (req, res) => {
+  res.send('GET Test Complete');
+});
+
+app.put('/put-test', (req, res) => {
+  res.send('PUT Test Complete');
+});
+
+app.post('/post-test', (req, res) => {
+  res.send('POST Test Complete');
+});
+
+app.delete('/delete-test', (req, res) => {
+  res.send('DELETE Test Complete');
+});
+```
+
+### app.locals
+Attaches local variables to the application, persisting throughout the app's lifecycle.
+```js
+app.locals.title = 'My App';
+```
+
+### app.listen()
+Starts the HTTP server on a specified port.
+```js
+const HTTP_PORT = process.env.PORT || 8080;
+app.listen(HTTP_PORT, () => {
+  console.log('server listening on: ' + HTTP_PORT);
+});
+```
+
+### app.set()
+Assigns a value to a specific setting, useful for configuration like setting the view engine.
+```js
+app.set('view engine', 'pug');
+```
+
+### app.use()
+Adds middleware to the application, executing functions globally or on specific routes before route handlers.
+```js
+app.use((req, res, next) => {
+  console.log('Middleware running...');
+  next();
+});
+```
+
+<br />
+
+## The Request Object
+The `req` object contains information and metadata about the request sent to the server. It is typically referred to as `req`.
+
+### req.body
+Contains data submitted in the request body. Requires body-parsing middleware.
+```js
+app.post('/urlencoded-test', (req, res) => {
+  res.send(req.body);
+});
+```
+
+### req.cookies
+Contains cookie data sent by the client. Requires cookie-parsing middleware.
+```js
+// Cookie: name=tj
+console.log(req.cookies.name); // "tj"
+```
+
+### req.params
+Contains route parameters specified in the URL.
+```js
+app.get('/employee/:employeeNum', (req, res) => {
+  res.send(`Employee Number: ${req.params.employeeNum}`);
+});
+```
+
+### req.query
+Contains query string parameters in the URL.
+```js
+app.get('/products', (req, res) => {
+  let result = 'all Products';
+  if (req.query.onSale == 'true') {
+    result += ' (on sale)';
+  }
+  res.send(result);
+});
+```
+
+### req.get()
+Gets the value of specific HTTP headers sent with the request.
+```js
+app.get('/hello', (req, res) => {
+  res.send(`Hello ${req.get('user-agent')}`);
+});
+```
+
+<br />
+
+## The Response Object
+The `res` object contains information and metadata about the response sent from the server. It is typically referred to as `res`.
+
+### res.cookie()
+Sends a cookie with the response. A cookie is a small piece of data sent from a server and stored on the user's browser to remember information about the user.
+```js
+app.get('/cookie-test', (req, res) => {
+  res.cookie('message', 'Hello World!');
+  res.send('Cookie Sent!');
+});
+```
+
+### res.end()
+Ends the response process, sending no content.
+```js
+app.put('/update', (req, res) => {
+  res.status(204).end();
+});
+```
+
+### res.redirect()
+Redirects the client to another URL.
+```js
+app.get('/to-google', (req, res) => {
+  res.redirect('https://www.google.ca/');
+});
+```
+
+### res.send()
+Sends a response to the client. Can send a string, object, array, or buffer.
+```js
+app.get('/json-test', (req, res) => {
+  res.send({ message: 'Hello World!' }); // Content-Type: application/json; charset=utf-8
+});
+
+app.get('/plain-text-test', (req, res) => {
+  res.send('Hello World!'); // Content-Type: text/html; charset=utf-8
+});
+```
+
+### res.sendFile()
+Sends a file as a response.
+```js
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '/views/home.html'));
+});
+```
+
+### res.status()
+```js
+app.put('/update', (req, res) => {
+  res.status(204).end();
+});
+```

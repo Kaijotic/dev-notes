@@ -1,0 +1,90 @@
+# JSON (JavaScript Object Notation)
+- A lightweight, plain-text format used to represent structured data. It is easy for humans to read and write, and easy for machines to parse and generate.
+- JSON is widely used for transmitting data between a server and a web application as it is language-independent and can be parsed by many programming languages.
+- Using the native JavaScript JSON object, you can easily convert JSON to a JavaScript object and vice versa.
+
+## Converting JSON to an Object
+```js
+let jsonString = '{"students":[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"},{"id":3,"name":"Charlie"}]}';
+
+// Convert to an Object:
+let obj = JSON.parse(jsonString);
+
+// Access the 2nd student (Bob)
+console.log(obj.students[1].name); // Bob
+```
+> - `JSON.parse(jsonString)`: Converts the JSON string into a JavaScript object.
+> - `obj.students[1].name`: Accesses the name of the second student in the array.
+
+<br />
+
+## Converting an Object to JSON
+```js
+let obj = {
+  students: [
+    { id: 1, name: 'Alice' },
+    { id: 2, name: 'Bob' },
+    { id: 3, name: 'Charlie' },
+  ],
+};
+
+let jsonString = JSON.stringify(obj);
+
+console.log(jsonString); // Outputs: '{"students":[{"id":1,"name":"Alice"},{"id":2,"name":"Bob"},{"id":3,"name":"Charlie"}]}'
+```
+> - `JSON.stringify(obj)`: Converts the JavaScript object into a JSON string.
+> - `jsonString`: The resulting JSON string representing the object.
+
+<br />
+
+## Caveats When Using JSON
+- JSON works well for converting objects to a string (serialization) and back to an object (deserialization). However, some data types do not convert well.
+- JSON only supports primitive data types (string, number, boolean, null) and arrays/objects. It does not support functions, dates, or undefined values.
+
+### Object Instances
+Instances of objects in memory, such as Date objects, lose their methods when converted to JSON.
+```js
+let event = {
+  title: 'Meeting',
+  date: new Date('2023-06-15T14:00:00Z'),
+};
+
+console.log(event.date.toISOString()); // 2023-06-15T14:00:00.000Z
+
+// Convert to JSON
+let jsonEvent = JSON.stringify(event);
+
+// Restore (convert to object)
+let eventFromJSON = JSON.parse(jsonEvent);
+
+console.log(eventFromJSON.date); // "2023-06-15T14:00:00.000Z"
+```
+> - During conversion to JSON, the `Date` object is converted to a string.
+> - Methods on the `Date` object are lost, so `eventFromJSON.date` is just a string, not a `Date` object.
+
+
+### Functions (Methods)
+Functions (methods) in objects are not included in the JSON representation.
+```js
+let counter = {
+  count: 0,
+  increment: function () {
+    this.count++;
+  },
+};
+
+console.log(counter.count); // 0
+counter.increment();
+console.log(counter.count); // 1
+
+// Convert to JSON
+let jsonCounter = JSON.stringify(counter);
+
+// Restore (convert to object)
+let counterFromJSON = JSON.parse(jsonCounter);
+
+console.log(counterFromJSON.count); // 0
+counterFromJSON.increment(); // TypeError: counterFromJSON.increment is not a function
+```
+> - During conversion to JSON, the `increment` function is not included.
+> - The resulting object from JSON does not have the `increment` method.

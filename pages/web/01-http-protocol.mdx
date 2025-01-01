@@ -1,0 +1,65 @@
+# HTTP Protocol
+
+## HTTP and TCP
+HTTP is an application layer protocol on top of TCP.
+- HTTP (HyperText Transfer Protocol) operates at the application layer of the OSI model, relying on TCP (Transmission Control Protocol) for the reliable delivery of data. It is the foundation of any data exchange on the Web and a protocol used for transmitting hypermedia documents, such as HTML.
+
+<br />
+
+## Headers
+Headers enable passing additional information in requests/responses.
+- HTTP headers are key-value pairs sent in both HTTP requests and responses. They provide essential metadata about the request or response, such as content type, length, encoding, and server details. Headers help in controlling cache, specifying cookies, defining content types, and much more.
+
+<br />
+
+## Payload
+Payload content, like raw HTML, is sent in the message body.
+- The HTTP message body contains the actual data being transmitted between the client and server. For a request, this might include form data or JSON objects. For a response, it might contain HTML, images, JSON, or other types of data that the server sends to the client.
+
+<br />
+
+## Structure of Requests and Responses
+Requests and responses have a similar structure with start-line, headers, and body.
+1. Request Structure:
+    - **Start-Line**: Contains the HTTP method, request target (URL), and HTTP version (e.g., `GET /index.html HTTP/1.1`).
+    - **Headers**: Provide additional information like `Host`, `User-Agent`, `Accept`, etc.
+    - **Body**: Optional part where data is sent (e.g., form data in a POST request).
+2. Response Structure:
+    - **Start-Line**: Contains the HTTP version, status code, and reason phrase (e.g., `HTTP/1.1 200 OK`).
+    - **Headers**: Provide metadata such as Content-Type, Content-Length, Set-Cookie, etc.
+    - **Body**: Contains the response data, like the HTML of a webpage or JSON data from an API.
+
+<br />
+
+## HTTP Methods
+HTTP methods like GET, POST, PUT, etc., define actions in requests.
+- **GET**: Requests a representation of the specified resource. Should not change server state.
+- **POST**: Submits data to be processed to a specified resource, often causing a change in server state.
+- **PUT**: Uploads a representation of the specified resource, typically updating existing data.
+- **DELETE**: Removes the specified resource.
+- **PATCH**: Partially updates a specified resource.
+- **HEAD**: Similar to GET but only requests the headers and status line, not the body.
+- **OPTIONS**: Describes the communication options for the target resource.
+
+<br />
+
+## Request Headers
+Request headers modify the request, provide context, or restrict it. Common Request Headers:
+- `Host:` Specifies the domain name of the server.
+- `User-Agent:` Provides information about the client software.
+- `Accept:` Informs the server about the types of data the client can process.
+- `Authorization:` Contains credentials for authenticating the client with the server.
+- `Content-Type:` Indicates the media type of the request body (e.g., application/json).
+
+## Response Components
+Responses include status codes, headers, and a body.
+1. Status Codes:
+    - 1xx (Informational): Request received, continuing process.
+    - 2xx (Success): The action was successfully received, understood, and accepted (e.g., 200 OK, 201 Created).
+    - 3xx (Redirection): Further action needs to be taken to complete the request (e.g., 301 Moved Permanently, 302 Found).
+    - 4xx (Client Error): The request contains bad syntax or cannot be fulfilled (e.g., 400 Bad Request, 404 Not Found).
+    - 5xx (Server Error): The server failed to fulfill a valid request (e.g., 500 Internal Server Error, 503 Service Unavailable).
+2. Response Headers:
+    - Similar to request headers, they provide additional context about the response (e.g., `Content-Type`, `Set-Cookie`, `Cache-Control`).
+3. Body: 
+    - Contains the payload data returned by the server, such as HTML, JSON, XML, images, or other types of content.

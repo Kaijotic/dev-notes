@@ -1,0 +1,125 @@
+# Encapsulation
+- Encapsulation is a concept in object-oriented programming where the internal state (data) of an object is hidden from the outside world and can only be accessed through public methods.
+- Encapsulation helps to protect the internal state of an object from unintended changes and misuse. It also makes the code more modular and easier to maintain.
+
+Example:
+```cpp
+class Rectangle {
+private:
+    int width, height;  // Internal state is hidden
+
+public:
+    void setWidth(int w) { width = w; }  // Public method to set width
+    void setHeight(int h) { height = h; }  // Public method to set height
+
+    int area() { return width * height; }  // Public method to get area
+};
+
+int main() {
+    Rectangle rect;
+    rect.setWidth(5);
+    rect.setHeight(4);
+    std::cout << "Area: " << rect.area() << std::endl;  // Outputs: Area: 20
+    return 0;
+}
+```
+> In this example, the width and height of the Rectangle are private, meaning they can't be accessed directly from outside the class. Instead, you use the public methods setWidth and setHeight to change these values and area to compute the area. This ensures that the internal state is controlled and protected.
+
+## Member Functions
+- Member functions are functions that belong to a class and have access to its private and protected members.
+They are used to provide a controlled interface to the class's data. This ensures that the class's internal state can only be altered in well-defined ways, maintaining the integrity of the data.
+
+Example:
+```cpp
+class Rectangle {
+    private:
+        int width, height;
+    public:
+        void setWidth(int w) { width = w; }
+        void setHeight(int h) { height = h; }
+        int area() { return width * height; }
+};
+```
+> In this Rectangle class example, setWidth and setHeight are member functions that allow you to safely set the values of width and height, which are private and thus inaccessible directly from outside the class. The area function calculates the area of the rectangle using these private values. This setup ensures that the rectangle's dimensions can only be modified in controlled ways, maintaining data integrity.
+
+## Member Operators
+- Member operators are special member functions that are defined to work with the syntax of operators. They can be overloaded to perform custom operations.
+- They provide a way to extend the syntax of existing C++ operators to work with user-defined types, allowing for more intuitive code.
+Example:
+```cpp
+class Counter {
+    private:
+        int value;
+    public:
+        Counter() : value(0) {}
+        Counter& operator++() {
+            ++value;
+            return *this;
+        }
+        int getValue() const { return value; }
+};
+```
+> The Counter class demonstrates how to overload the increment operator (++) as a member function. This allows the Counter object to be incremented using the ++ operator in a natural way, similar to built-in types. The getValue function provides a safe way to access the private value member. This example shows how custom behaviors can be defined for standard operations, enhancing code intuitiveness.
+
+## Privacy (Access Specifiers)
+- Privacy in C++ is enforced through access specifiers (private, protected, public), which control the accessibility of class members.
+- They are crucial for encapsulation, allowing the class to hide its internal state and behavior from outside access, exposing only what is necessary.
+Example:
+```cpp
+class BankAccount {
+    private:
+        double balance;
+    public:
+        void deposit(double amount) { balance += amount; }
+        double getBalance() const { return balance; }
+};
+```
+> In the BankAccount class, the balance is private, ensuring it cannot be directly modified from outside the class. This protects the balance from unauthorized changes. Public functions deposit and getBalance provide controlled access to modify and read the balance, respectively. This setup exemplifies how encapsulation safeguards the object's state while still allowing necessary external interactions.
+
+
+## Construction and Destruction
+- Constructors and destructors are special member functions used for initializing and cleaning up objects.
+- Constructors ensure an object starts in a valid state, and destructors allow for any necessary cleanup when an object is destroyed, such as releasing resources.
+Example:
+```cpp
+class Example {
+    public:
+        Example() { std::cout << "Constructed\n"; }
+        ~Example() { std::cout << "Destroyed\n"; }
+};
+```
+> The Example class has a constructor and a destructor, which are automatically called when an object of the class is created and destroyed, respectively. The constructor initializes the object (in this case, simply announces its creation), and the destructor cleans up (announces its destruction). This example illustrates how constructors and destructors ensure objects are properly initialized and cleaned up, managing resources efficiently.
+
+## Rule of Three
+- The Rule of Three states that if a class defines one of the following, it should probably explicitly define all three: destructor, copy constructor, and copy assignment operator.
+- To ensure that copies and destruction of objects handle dynamically allocated resources correctly, preventing resource leaks and shallow copies.
+Example:
+```cpp
+class StringWrapper {
+    private:
+        char* str;
+    public:
+        StringWrapper(const char* s);  // Constructor
+        ~StringWrapper();              // Destructor
+        StringWrapper(const StringWrapper&); // Copy constructor
+        StringWrapper& operator=(const StringWrapper&); // Copy assignment
+};
+```
+> The StringWrapper class demonstrates the Rule of Three by defining a destructor, copy constructor, and copy assignment operator. These ensure that when StringWrapper objects are copied or destroyed, the dynamic memory allocated for str is correctly managed, preventing memory leaks and ensuring deep copies. This example highlights the importance of proper resource management in classes that handle resources like dynamic memory.
+
+## Helper Functions
+- Helper functions are non-member functions that perform auxiliary tasks for a class, often used to operate on or with the class's public interface.
+- They improve the readability and maintainability of code by separating complex operations from class definitions, keeping classes focused on their primary responsibilities.
+Example:
+```cpp
+class Data {
+    public:
+        void processData() { /* ... */ }
+};
+
+void processWithHelper(Data& data) {
+    // Helper function that uses Data's public interface
+    data.processData();
+}
+```
+> The function processWithHelper operates on an object of the Data class. It is a non-member function that utilizes the public interface of Data (processData method) to perform some operation. This separation of concerns allows Data to focus on its primary responsibilities, while processWithHelper handles a specific task, improving code organization and readability.

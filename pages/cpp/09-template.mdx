@@ -1,0 +1,208 @@
+# Template
+
+## Basic Concepts and Syntax
+
+### Polymorphism in C++
+- **Polymorphism**: It is the ability to use a single interface to represent different data types or classes. In C++, polymorphism can be achieved through function overloading, operator overloading, and inheritance.
+- There are two types of polymorphism: compile-time (static) and runtime (dynamic):
+  - **Compile-time Polymorphism**: Also known as static polymorphism, it is resolved during compile time. It is achieved through function overloading, operator overloading, and templates.
+  - **Runtime Polymorphism**: Also known as dynamic polymorphism, it is resolved during runtime. It is achieved through inheritance and virtual functions.
+- **Template**: A `template` is a blueprint or formula for creating a generic class or function. It allows the creation of functions and classes that can operate with any data type.
+
+<br />
+
+### Template Syntax
+- Templates begin with the `template` keyword, followed by template parameter lists enclosed in angle brackets (`<>`).
+- Template parameter list: Specifies the types or values that can be used to instantiate the template.
+```cpp
+template <typename T, int N>
+class MyClass {
+  // Class implementation
+};
+```
+
+<br />
+
+### Template Body
+- The template body is defined using placeholders that are replaced during instantiation with actual arguments.
+- The placeholders are specified using the `typename` keyword for types and other keywords like `class`, `int`, etc., for non-type parameters.
+```cpp
+template <typename T>
+void print(T value) {
+    std::cout << value << std::endl;
+}
+```
+> The placeholder `T` is replaced by the actual type (like `int`, `float`) when the function is called.
+
+### Model Polymorphic Behavior Using Templates (Generics)
+- Templates in C++ allow you to write generic and reusable code that can handle different data types without duplication. This is known as parametric polymorphism.
+```cpp
+template <typename T>
+T add(T a, T b) {
+    return a + b;
+}
+
+int main() {
+    std::cout << add(3, 4) << std::endl; // Works with int
+    std::cout << add(3.5, 2.1) << std::endl; // Works with double
+}
+```
+> The `add` function can work with different data types (`int`, `double`, etc.) without the need for separate implementations.
+
+<br />
+
+## Function Templates
+### Function Template Syntax
+- Function templates allow you to define a generic function that can operate with different data types.
+- The template parameter list specifies the types or values that can be used to instantiate the function template.
+```cpp
+template <typename T>
+void swap(T& a, T& b) {
+    T temp = a;
+    a = b;
+    b = temp;
+}
+```
+> The `swap` function can exchange the values of any two variables of the same type.
+
+<br />
+
+### Function Template Instantiation
+- Function templates are instantiated with actual types or values when called.
+- The compiler generates the appropriate function based on the template arguments.
+```cpp
+int main() {
+    int x = 5, y = 10;
+    swap(x, y); // Instantiates swap<int>(int&, int&)
+    std::cout << "x: " << x << ", y: " << y << std::endl; // Output: x: 10, y: 5
+}
+```
+> The `swap` function is instantiated with `int` as the template argument.
+
+<br />
+
+### Resolving Ambiguity
+- When multiple functions match the template arguments, the compiler may face ambiguity.
+- To resolve ambiguity, you can provide explicit template arguments or use function overloading.
+```cpp
+template <typename T>
+T maximum(T a, T b) {
+    return a > b ? a : b;
+}
+
+int main() {
+    double a = 3.5, b = 2.1;
+    float c = maximum<float>(a, b); // Explicit type specification
+    std::cout << c << std::endl;
+}
+```
+> The `maximum` function is instantiated with `float` as the template argument. The explicit type specification resolves ambiguity, ensuring the correct type is used in the function call.
+
+<br />
+
+## Class Templates
+### Class Template Syntax
+- Class templates allow you to define a generic class that can operate with different data types.
+- The template parameter list specifies the types or values that can be used to instantiate the class template.
+```cpp
+template <typename T>
+class Array {
+    T arr[50];
+public:
+    T& operator[](int i) { return arr[i]; }
+};
+```
+> The `Array` class can store arrays of different types, such as `int`, `double`, etc.
+
+<br />
+
+### Class Template Instantiation
+- Class templates are instantiated with actual types or values when declared.
+- The compiler generates the appropriate class based on the template arguments.
+```cpp
+int main() {
+    Array<int> intArray;
+    intArray[0] = 10;
+    std::cout << intArray[0] << std::endl; // Output: 10
+
+    Array<double> doubleArray;
+    doubleArray[0] = 3.14;
+    std::cout << doubleArray[0] << std::endl; // Output: 3.14
+}
+```
+> The `Array` class is instantiated with `int` and `double` as the template arguments.
+
+<br />
+
+### Static Data Member Declarations in a Class Template
+- Class templates can have static data members, which are shared among all instances of the template.
+- Static data members in a class template must be explicitly declared and defined outside the class template.
+- The declaration specifies the template parameter list for the static data member.
+```cpp
+template <typename T = int, int SIZE = 50>
+class Array {
+    T arr[SIZE];
+    static unsigned count;
+public:
+    Array() { ++count; }
+    ~Array() { --count; }
+    static unsigned getCount() { return count; }
+};
+
+template <typename T, int SIZE>
+unsigned Array<T, SIZE>::count = 0;
+```
+> The `Array` class template has a static data member `count` that tracks the number of instances created.
+
+<br />
+
+## Template Specialization and Overloading
+### Template Specialization
+- Template specialization allows you to define specific behavior for a particular data type, overriding the generic template.
+
+```cpp
+template <typename T>
+T maximum(T a, T b) {
+    return a > b ? a : b;
+}
+
+template <>
+const char* maximum<const char*>(const char* a, const char* b) {
+    return strcmp(a, b) > 0 ? a : b;
+}
+```
+> The `maximum` function is specialized for `const char*` data type to compare C-style strings using `strcmp`.
+
+<br />
+
+### Template Overloading
+- Template overloading allows you to define multiple template functions with the same name but different template parameter lists.
+- **Overloading vs Specialization**: Overloading provides different function implementations based on the argument types, while specialization provides a specific implementation for a particular type within a template.
+
+```cpp
+template <typename T>
+T maximum(T a, T b) {
+    return a > b ? a : b;
+}
+
+const char* maximum(const char* a, const char* b) {
+    return strcmp(a, b) > 0 ? a : b;
+}
+```
+> The second `maximum` function overloads the template for `const char*` without using specialization, showcasing flexibility.
+
+<br />
+
+## Advanced Template Features
+### Default Template Parameter Values
+- Templates can have default parameter values, making them more flexible and easier to use without specifying every detail.
+
+```cpp
+template <typename T = int, int SIZE = 50>
+class Array {
+    T arr[SIZE];
+public:
+    T& operator[](int i) { return arr[i]; }
+};
+```
+> This allows the `Array` class to be instantiated without providing explicit template arguments.

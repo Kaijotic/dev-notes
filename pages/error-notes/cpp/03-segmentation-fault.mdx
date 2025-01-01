@@ -1,0 +1,20 @@
+## C++ Error Notes
+
+### Segmentation Fault (Segmentation violation) error
+
+#### Issue
+Accessing memory that is not allocated or accessing memory outside the bounds of an allocated block.
+
+#### Details
+This error often occurs when dereferencing a null pointer or accessing an array index beyond its bounds. For example:
+
+```cpp
+int* ptr = nullptr;
+*ptr = 10; // Dereferencing a null pointer
+
+int arr[5];
+arr[5] = 10; // Accessing memory outside the bounds of the array
+```
+
+#### Solution
+To avoid segmentation faults, ensure pointers are properly initialized before use and verify array indices are within bounds before accessing elements.

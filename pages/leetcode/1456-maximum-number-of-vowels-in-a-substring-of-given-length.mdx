@@ -1,0 +1,71 @@
+# 1456. Maximum Number of Vowels in a Substring of Given Length
+
+## Description
+Given a string `s` and an integer `k`, return the maximum number of vowel letters in any substring of `s` with length `k`.
+
+Vowel letters in English are `'a'`, `'e'`, `'i'`, `'o'`, and `'u'`.
+
+### Example 1:
+```
+  Input: s = "abciiidef", k = 3
+  Output: 3
+  Explanation: The substring "iii" contains 3 vowel letters.
+```
+
+### Example 2:
+```
+  Input: s = "aeiou", k = 2
+  Output: 2
+  Explanation: Any substring of length 2 contains 2 vowels.
+```
+
+### Example 3:
+```
+  Input: s = "leetcode", k = 3
+  Output: 2
+  Explanation: "lee", "eet" and "ode" contain 2 vowels.
+```
+
+### Constraints:
+- `1 <= s.length <= 10^5`
+- `s` consists of lowercase English letters.
+- `1 <= k <= s.length`
+
+## My Solution
+```js
+
+// using sliding window
+/**
+ * @param {string} s
+ * @param {number} k
+ * @return {number}
+ */
+var maxVowels = function(s, k) {
+    let vowels = ['a', 'e', 'i', 'o', 'u'];
+    let count = 0;
+    let maxCount = 0;
+    for(let i = 0; i < k; i++) {
+        if(vowels.includes(s[i])) count++;
+    }
+    maxCount = count;
+    for(let i = k; i < s.length; i++) {
+        if(vowels.includes(s[i-k])) count--;
+        if(vowels.includes(s[i])) count++;
+        maxCount = Math.max(maxCount, count);
+    }
+    return maxCount;
+};
+
+```
+
+## Explanation
+1. `Purpose`: The goal is to find the maximum number of vowels in any substring of length 'k' from the given string 's'.
+2. `Vowel List`: First, make a list of vowels ('a', 'e', 'i', 'o', 'u').
+3. `Start Counting`: Initialize two counters: 'count' for the current number of vowels, and 'maxCount' for the highest number of vowels found.
+4. `First Window`: Look at the first substring of length 'k'. For each character, if it's a vowel (in our list), increase 'count' by 1.
+5. `Set Initial Max`: After checking the first 'k' characters, set 'maxCount' to the value of 'count'.
+6. `Slide the Window`: Now, start sliding the window one character at a time, from the kth character to the end of the string 's'.
+> * `Subtract`: If the character leaving the window (on the left) is a vowel, reduce 'count' by 1.
+> * `Add`: If the new character entering the window (on the right) is a vowel, increase 'count' by 1.
+7. `Update Max`: After each slide, update 'maxCount' if 'count' is higher than the current 'maxCount'.
+8. `Result`: Once slid through the entire string, 'maxCount' will hold the maximum number of vowels we could find in any substring of length 'k'. Return 'maxCount'.

@@ -1,0 +1,38 @@
+## C++ Error Notes
+
+### Linker error
+
+#### Issue
+Using `extern` variables in a header file without providing a definition in any source file.
+
+#### Details
+When an `extern` variable is declared in a header file but not defined in any source file, the linker will generate an error indicating that the variable is undefined. extern specifies that the variable has external linkage, meaning it is defined in another translation unit. However, if the definition is missing, the linker cannot resolve the reference.
+
+Example:
+Header File (example.h):
+```cpp
+extern int myVar; // Declaration of myVar
+```
+Source File (main.cpp):
+```cpp
+#include "example.h"
+
+int main() {
+    myVar = 10; // Linker error: undefined reference to `myVar`
+    return 0;
+}
+```
+
+#### Solution
+To fix this error, ensure that the extern variable is defined in exactly one source file. The definition allocates storage for the variable and provides an initial value if desired.
+Header File (example.h):
+```cpp
+extern int myVar; // Declaration of myVar
+```
+Source File (example.cpp):
+```cpp
+#include "example.h"
+
+int myVar = 0; // Definition and initialization of myVar
+```
+By providing the definition in a source file, the linker can correctly resolve the reference to the extern variable, and the program will compile and link successfully.

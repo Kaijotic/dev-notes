@@ -1,0 +1,59 @@
+## Types
+### Arithmetic Types (Size, Range, Type Specifier)
+| Data Type | Size (in bytes) | Range                                         | Type Specifier |
+|-----------|-----------------|-----------------------------------------------|----------------|
+| char      | 1               | -128 to 127 or 0 to 255                       | `%c`           |
+| int       | 4               | -2,147,483,648 to 2,147,483,647               | `%d`           |
+| float     | 4               | approximately 6 decimal digits of precision   | `%f`           |
+| double   	| 8              	| approximately 15 decimal digits of precision 	| `%lf`          |
+
+<br />
+
+### Variable
+- Declare variable
+```c
+// [type] [variable name];
+int age; // declares an integer variable named 'age'
+float weight; // declares a float variable named 'weight'
+char firstLetter; // declares a character variable named 'firstLetter'
+```
+- Once declared, you can assign values to these variables like this:
+```c
+age = 20; // assigns the value 20 to 'age'
+weight = 70.5; // assigns the value 70.5 to 'weight'
+firstLetter = 'A'; // assigns the character A to 'firstLetter'
+```
+- You can also declare and assign values at the same time:
+```c
+int age = 20;
+float weight = 70.5;
+char firstLetter = 'A';
+```
+- You may group the identifiers of variables that share the same type within a single declaration by separating the identifiers by commas.
+```c
+ char   children, digit;
+ int    nPages = 10, nBooks = 3, nRooms = 1;
+ float  cashFare, height = 185.5, weight = 70.5;
+ double loan, mortgage;
+```
+- You can use `const` keyword to declare a constant. A constant is a type of variable whose value cannot be changed after it's been defined.
+```c
+const int myConstant = 10;
+```
+<br />
+
+### Naming Conventions
+- Start with a letter or an underscore (_).
+- Use any mix of letters, numbers, and underscores (_).
+- Keep it under 32 characters long.
+- Don't use C reserved words
+
+<br />
+
+### Tips for good variable names
+- Make the name explain what it's used for.
+- Keep it short but clear.
+- Make sure the name matches what data is stored in it.
+- The name should make your code easier to read.
+- Use "camelNotation" where the first letter of each word is capitalized except the first word (like "myVariableName").
+- Avoid using underscores (_) because system libraries often use them and you don't want to mix up your variables with theirs.

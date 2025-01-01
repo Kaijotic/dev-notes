@@ -1,0 +1,234 @@
+# Polymorphism
+- Polymorphism lets you use objects from different classes in the same way. This means you can treat different types of objects as if they are the same type.
+- It makes your code more flexible and reusable. It lets you write code that can work with different kinds of objects, as long as those objects follow the same rules or interface. This way, you can create more general and adaptable programs.
+
+## Virtual / Pure Virtual Functions
+- A virtual function is a member function that is declared in a base class and is overridden (redefined) by a derived class.
+- A pure virtual function is a virtual function that has no implementation in the base class, and must be overridden in the derived class.
+- Virtual functions allow polymorphic behavior, where the specific implementation of a function is determined at runtime based on the actual type of the object.
+- Pure virtual functions are used to create abstract base classes, which serve as a blueprint for derived classes.
+
+Example:
+```cpp
+class Animal {
+public:
+    virtual void makeSound() = 0;  // Pure virtual function
+};
+
+class Dog : public Animal {
+public:
+    void makeSound() override {
+        std::cout << "Woof!" << std::endl;
+    }
+};
+
+class Cat : public Animal {
+public:
+    void makeSound() override {
+        std::cout << "Meow!" << std::endl;
+    }
+};
+
+int main() {
+    Animal* animal1 = new Dog();
+    animal1->makeSound();  // Output: Woof!
+
+    Animal* animal2 = new Cat();
+    animal2->makeSound();  // Output: Meow!
+
+    return 0;
+}
+```
+> In this example, the Animal class has a pure virtual function makeSound(), which is overridden by the Dog and Cat classes. This allows us to create Animal pointers that can point to Dog or Cat objects and call the appropriate makeSound() implementation at runtime.
+
+
+## Abstract Base Class
+- An abstract base class is a class that contains one or more pure virtual functions.
+- It cannot be instantiated directly, but can be used as a base class for other classes.
+- It makes sure that all derived classes have certain functions. This helps create a group of related classes that all work in a similar way.
+
+Example:
+```cpp
+#include <iostream>
+
+// Abstract Base Class
+class Animal {
+public:
+    virtual void makeSound() const = 0;  // Pure virtual function
+};
+
+// Derived Class Dog
+class Dog : public Animal {
+public:
+    void makeSound() const override {
+        std::cout << "Woof!" << std::endl;
+    }
+};
+
+// Derived Class Cat
+class Cat : public Animal {
+public:
+    void makeSound() const override {
+        std::cout << "Meow!" << std::endl;
+    }
+};
+
+int main() {
+    Animal* animal1 = new Dog();  // Treating Dog as an Animal
+    animal1->makeSound();  // Outputs: Woof!
+
+    Animal* animal2 = new Cat();  // Treating Cat as an Animal
+    animal2->makeSound();  // Outputs: Meow!
+
+    delete animal1;  // Clean up
+    delete animal2;  // Clean up
+
+    return 0;
+}
+```
+> In this example, the Animal class is an abstract base class that defines the common interface for making sounds. The Dog and Cat classes are derived from Animal and provide their own implementations of the makeSound() function. This allows us to treat Dog and Cat objects as Animal objects and call the appropriate makeSound() method at runtime.
+
+## Interface
+- An interface is a collection of abstract methods (pure virtual functions) that define a contract or a set of rules that a class must follow. 
+- Interfaces do not contain any implementation details.
+- It's used to achieve abstraction and to define a common set of methods that multiple classes must implement. 
+- They promote loose coupling and flexibility in the design of the system.
+
+Example:
+```cpp
+#include <iostream>
+
+// Interface: Drivable
+class Drivable {
+public:
+    // Pure virtual functions
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    virtual void move() = 0;
+};
+
+// Concrete Class: Car
+class Car : public Drivable {
+public:
+    // Implementation of interface functions
+    void start() override { std::cout << "Car started." << std::endl; }
+    void stop() override { std::cout << "Car stopped." << std::endl; }
+    void move() override { std::cout << "Car moving." << std::endl; }
+};
+
+// Concrete Class: Motorcycle
+class Motorcycle : public Drivable {
+public:
+    // Implementation of interface functions
+    void start() override { std::cout << "Motorcycle started." << std::endl; }
+    void stop() override { std::cout << "Motorcycle stopped." << std::endl; }
+    void move() override { std::cout << "Motorcycle moving." << std::endl; }
+};
+
+int main() {
+    Drivable* vehicle1 = new Car();  // Treating Car as Drivable
+    vehicle1->start();  // Car started.
+    vehicle1->move();   // Car moving.
+    vehicle1->stop();   // Car stopped.
+
+    Drivable* vehicle2 = new Motorcycle();  // Treating Motorcycle as Drivable
+    vehicle2->start();  // Motorcycle started.
+    vehicle2->move();   // Motorcycle moving.
+    vehicle2->stop();   // Motorcycle stopped.
+
+    delete vehicle1;  // Clean up
+    delete vehicle2;  // Clean up
+
+    return 0;
+}
+```
+> In this example, the Drivable interface defines a set of methods that any drivable vehicle must implement. The Car and Motorcycle classes both implement the Drivable interface, allowing them to be treated as Drivable objects. This promotes code reuse and flexibility, as you can write code that works with any Drivable object without knowing the specific type of the vehicle.
+
+## Template
+
+### Function Template
+- A function template is a generalized function that can work with different data types.
+- It allow you to write code that can work with different data types without having to write separate functions for each data type.
+- The compiler generates the appropriate function based on the data type used when calling the function.
+
+Example:
+```cpp
+template <typename T>
+T add(T a, T b) {
+    return a + b;
+}
+
+int main() {
+    std::cout << add<int>(5, 3) << std::endl;  // Output: 8
+    std::cout << add<double>(3.5, 2.7) << std::endl;  // Output: 6.2
+    return 0;
+}
+```
+> The add function is a template function that can work with any data type T. When the function is called, the compiler generates a specific version of the function for the given data type.
+
+<br />
+
+### Class Template
+- A class template is a generalized class that can work with different data types.
+- It allow you to write code that can work with different data types without having to write separate classes for each data type.
+- The compiler generates the appropriate class based on the data type used when creating an instance of the class.
+
+Example:
+```cpp
+template <class T, int N>
+class Array {
+    T a[N];
+public:
+    T& operator[](int i) { return a[i]; }
+};
+
+int main() {
+    Array<int, 5> a, b;
+
+    for (int i = 0; i < 5; i++)
+        a[i] = i * i;
+
+    b = a;
+
+    for (int i = 0; i < 5; i++)
+        std::cout << b[i] << ' '; // Output: 0 1 4 9 16
+    std::cout << std::endl;
+}
+```
+> In this example, the Array class is a template class that can work with any data type T and any size N. We create instances of the Array class with different data types and sizes, allowing us to store and access elements of different types and sizes in an array-like structure.
+
+<br />
+
+### Template Specialization
+- Specialization is the process of providing a specific implementation of a template for a particular data type.
+- It allows you to override the default behavior of a template for a specific data type.
+- Specialized templates are used when the default behavior of the template is not suitable for a specific data type.
+
+Example:
+```cpp
+template <typename T>
+class MyClass {
+public:
+    void doSomething(T value) {
+        std::cout << "Generic implementation: " << value << std::endl;
+    }
+};
+
+template <>
+class MyClass<int> {
+public:
+    void doSomething(int value) {
+        std::cout << "Specialized implementation for int: " << value * 2 << std::endl;
+    }
+};
+
+int main() {
+    MyClass<double> doubleObj;
+    doubleObj.doSomething(3.14);  // Output: Generic implementation: 3.14
+
+    MyClass<int> intObj;
+    intObj.doSomething(10);  // Output: Specialized implementation for int: 20
+    return 0;
+}
+```
+> The MyClass template has a generic implementation of the doSomething method. However, a specialized implementation is provided for the int data type, which doubles the input value before printing it.

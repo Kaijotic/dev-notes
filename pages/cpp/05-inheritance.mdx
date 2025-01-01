@@ -1,0 +1,108 @@
+# Inheritance
+- Inheritance is a mechanism where a new class, known as a derived class, is formed from an existing class, the base class, inheriting its attributes and behaviors.
+- It promotes code reuse, simplifies code maintenance, and establishes a natural hierarchy for objects.
+
+Example:
+```cpp
+class Animal {
+public:
+    void eat() { /* Implementation */ }
+};
+
+class Dog : public Animal {};
+```
+> Dog inherits from Animal, which means Dog can perform eat behavior available to Animal.
+
+
+## Derived Class
+- A class that inherits from another class. It's also known as a subclass or child class.
+- To extend or modify the behavior of the base (parent) class.
+
+Example:
+```cpp
+class Bird : public Animal {
+public:
+    void fly() { /* Implementation */ }
+};
+```
+> Bird is a derived class of Animal and adds a new behavior, fly, while still having access to the Animal's behaviors like eat.
+
+
+## Access
+- Determines how the members (attributes and methods) of a class can be accessed in hierarchy structures.
+- To control the visibility of class members and protect the object's state from unintended modifications.
+  - Private: Bars all access
+  - Protected: Limits access to derived classes only
+  - Public: Unlimited access
+
+Example:
+```cpp
+class Base {
+private:
+    int value;
+public:
+    void setValue(int v) { value = v; }
+};
+
+class Derived : public Base {};
+```
+> In Base, value is private and cannot be directly accessed by Derived. However, Derived can use the public method setValue to modify value.
+
+
+## Shadowing
+- Occurs when a derived class declares a variable, function, or property with the same name as one in the base class, hiding the base class version.
+- To override or modify the behavior or value of the base class members in the derived class.
+
+Example:
+```cpp
+class Base {
+public:
+    int number = 5;
+};
+
+class Derived : public Base {
+public:
+    int number = 10; // Shadowing Base's number
+};
+```
+> Derived has its own number variable which shadows the number variable of the Base, leading to Derived's number taking precedence within its scope.
+
+
+## Initialization Order (constructor, destructor)
+- Specifies the order in which constructors and destructors of base and derived classes are called.
+- o ensure that base class constructors initialize member variables before derived class constructors use them, and that resources are released in the reverse order of their acquisition.
+
+Example:
+```cpp
+class Base {
+public:
+    Base() { /* Initialization code */ }
+    ~Base() { /* Cleanup code */ }
+};
+
+class Derived : public Base {
+public:
+    Derived() { /* Initialization code */ }
+    ~Derived() { /* Cleanup code */ }
+};
+```
+> When creating a Derived object, the Base constructor is called first, followed by the Derived constructor. Upon deletion, the Derived destructor is called first, then the Base destructor.
+
+
+## Passing Arguments to a Base Class Constructor
+- Mechanism to initialize a base class using specific arguments when constructing a derived class.
+- To allow derived classes to pass initialization data to the base class constructor, ensuring proper initialization of base class members.
+
+Example
+```cpp
+class Base {
+public:
+    Base(int value) { /* Use value for initialization */ }
+};
+
+class Derived : public Base {
+public:
+    Derived(int value) : Base(value) { /* Derived class initialization */ }
+};
+```
+> Derived class takes an int value in its constructor and passes it to the Base class constructor. This ensures that Base is initialized with value before Derived performs its own initialization.

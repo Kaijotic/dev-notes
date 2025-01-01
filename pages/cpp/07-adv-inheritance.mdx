@@ -1,0 +1,165 @@
+# Advanced Inheritance
+
+## Generalization and Specialization
+- **Generalization**: A base class is a generalization of its derived classes.
+- **Specialization**: A derived class is a specialization of its base class.
+- **Inheritance Hierarchies**: Used to model generalization and specialization within object-oriented programming. The hierarchy allows for the abstraction of shared features and specialization through derived classes.
+
+```cpp
+class Animal {
+public:
+  void eat() {
+    cout << "Eating..." << endl;
+  }
+};
+
+class Dog : public Animal {
+public:
+  void bark() {
+    cout << "Barking..." << endl;
+  }
+};
+
+// Usage
+Dog d;
+d.eat();  // Inherited from Animal
+d.bark(); // Specific to Dog
+```
+> Here, `Animal` is a base class that provides a general behavior (`eat`). `Dog` is a specialized class that inherits from `Animal` and adds its own behavior (`bark`). This demonstrates how inheritance can be used to model generalization (Animal) and specialization (Dog).
+
+
+## Tight Coupling in Inheritance
+- **Tight Coupling**: Refers to the degree of dependency between classes. Inheritance can lead to tight coupling between base and derived classes.
+- **Class Relationships**: Inheritance creates strong coupling between classes in a hierarchy. A derived class inherits the full structure of its base class and adds only the necessary specialized features.
+- **Code Reuse**: Inheritance facilitates the reuse of code, simplifying development and enhancing substitutability over the lifecycle of the hierarchy.
+- **Abstract Base Class**: Exposes a common structure to all derived classes in the hierarchy, ensuring that derived classes adhere to the base class’s constraints, as per the Liskov Substitution Principle.
+- **Issues**:
+  - Changes in the base class can affect derived classes.
+  - Derived classes are tightly bound to the base class implementation.
+  - Inheritance can lead to a rigid class hierarchy.
+
+```cpp
+class Vehicle {
+public:
+    virtual void startEngine() = 0; // Abstract method
+};
+
+class Car : public Vehicle {
+public:
+    void startEngine() override {
+        cout << "Car engine started" << endl;
+    }
+};
+
+class Motorcycle : public Vehicle {
+public:
+    void startEngine() override {
+        cout << "Motorcycle engine started" << endl;
+    }
+};
+
+// Usage
+Vehicle* v = new Car();
+v->startEngine();  // Outputs: Car engine started
+```
+> `Vehicle` is an abstract base class with a pure virtual function `startEngine`. `Car` and `Motorcycle` are derived classes that provide specific implementations of `startEngine`. This example illustrates how inheritance allows for code reuse and enforces a common interface across different derived classes.
+
+
+## Inheritance Basics
+- Concrete vs. Abstract Classes:
+  - **Concrete Class**: A class that can be instantiated. It provides concrete implementations for all its member functions.
+  - **Abstract Class**: A class that cannot be instantiated. It requires a derived class to implement the missing parts. It contains one or more pure virtual functions, making it an abstract base class. (Acts as an interface)
+
+```cpp
+class Shape { // Abstract class
+public:
+    virtual double area() = 0; // Pure virtual function
+};
+
+class Rectangle : public Shape { // Concrete class
+private:
+    double width, height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    double area() override {
+        return width * height;
+    }
+};
+
+// Usage
+Shape* s = new Rectangle(4, 5);
+cout << s->area();  // Outputs: 20
+```
+> `Shape` is an abstract class with a pure virtual function `area`. `Rectangle` is a concrete class that inherits from `Shape` and provides a specific implementation of `area`. The example shows how an abstract class defines a common interface, while concrete classes provide specific implementations.
+
+
+## Liskov Substitution Principle
+- **Design Guidance**: This principle emphasizes that objects of a derived class should be usable through base class pointers or references without the need to know the derived type. It underscores the importance of designing classes based on behavior rather than just properties.
+- Correct example:
+```cpp
+class Bird {
+public:
+    virtual void fly() {
+        cout << "Flying..." << endl;
+    }
+};
+
+class Sparrow : public Bird {
+public:
+    void fly() override {
+        cout << "Sparrow flying..." << endl;
+    }
+};
+
+class Ostrich : public Bird {
+public:
+    void fly() override { // Violates Liskov Substitution Principle if called
+        throw logic_error("Ostrich can't fly!");
+    }
+};
+
+// Usage
+Bird* b = new Sparrow();
+b->fly();  // Outputs: Sparrow flying...
+```
+> This design follows the Liskov Substitution Principle because both `Square` and `Rectangle` inherit from `Shape` and correctly implement the `area()` method. The `printArea()` function works with any `Shape` object, whether it's a `Square` or `Rectangle`. We can use either subclass wherever a `Shape` is expected, and the program behaves correctly. This design is flexible and allows for easy addition of new shapes without changing existing code.
+
+- Incorrect example:
+```cpp
+class Rectangle {
+public:
+    virtual void setWidth(double w) { width = w; }
+    virtual void setHeight(double h) { height = h; }
+    double getWidth() const { return width; }
+    double getHeight() const { return height; }
+    
+protected:
+    double width, height;
+};
+
+class Square : public Rectangle {
+public:
+    void setWidth(double s) override {
+        width = s;
+        height = s;
+    }
+    void setHeight(double s) override {
+        width = s;
+        height = s;
+    }
+};
+
+void modifyRectangle(Rectangle& r) {
+    r.setWidth(5);
+    r.setHeight(4);
+    if (r.getWidth() * r.getHeight() != 20) {
+        std::cout << "Unexpected behavior!" << std::endl;
+    }
+}
+
+int main() {
+    Square s;
+    modifyRectangle(s);  // This will print "Unexpected behavior!"
+}
+```
+> This design violates the Liskov Substitution Principle because a `Square`, although derived from `Rectangle`, doesn't behave like a true rectangle when its dimensions are changed. The `modifyRectangle()` function expects to work with any `Rectangle`, but it fails with a `Square` because changing one dimension of a `Square` affects both dimensions. This leads to unexpected behavior when a `Square` is used in place of a `Rectangle`, breaking the principle that subclasses should be usable wherever their parent class is used without causing problems.

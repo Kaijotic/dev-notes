@@ -1,0 +1,14 @@
+{
+  "index": "Introduction",
+  "c": "C",
+  "cpp": "C++",
+  "web": "WEB Programming",
+  "react-next": "React/Next.js",
+  "js-challenge": "JS-Challenge",
+  "leetcode": "Leetcode",
+  "error-notes": "Error Notes",
+  "about": {
+    "title": "About",
+    "type": "page"
+  }
+}

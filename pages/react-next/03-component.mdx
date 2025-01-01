@@ -1,0 +1,114 @@
+# React Component
+
+## What is a React Component?
+- A React component is a reusable piece of UI that can be composed together to create complex user interfaces.
+- Components can be functional or class-based and are written in JSX (a syntax extension for JavaScript).
+- Components can have props (properties) and state to manage data and UI interactions.
+
+## Component Basics
+### Functional Components
+- Components in React are typically written as functions. These components return JSX to render UI elements.
+  - Example:
+    ```jsx
+    export default function Home() {
+      return <p>Welcome to Home!</p>;
+    }
+    ```
+
+### Class Components
+- Class components are ES6 classes that extend `React.Component`. They have a `render()` method that returns JSX.
+  - Example:
+    ```jsx
+    import React from 'react';
+
+    class Home extends React.Component {
+      render() {
+        return <p>Welcome to Home!</p>;
+      }
+    }
+
+    export default Home;
+    ```
+
+### JSX
+- JavaScript XML (JSX) allows you to write HTML-like syntax within JavaScript. Every return statement in JSX must return a single parent element, which can be wrapped in tags like `<div>` or empty fragments (`<>...</>`).
+- JSX expressions can include JavaScript expressions within curly braces `{}`. This allows dynamic rendering of values like variables and function results.
+  - Example:
+    ```jsx
+    export default function Home() {
+      const name = 'John';
+      return <p>Welcome, {name}!</p>;
+    }
+    ```
+
+## Importing and Using Components
+- Import Statements: React components and other resources (like images, fonts, and styles) are imported into the component files using `import` statements.
+  - Example:
+    ```jsx
+    import React from 'react';
+    import Header from './Header';
+    import './styles.css';
+    ```
+- Using Functional Components: To render a component, you include it in JSX using self-closing tags like `<Home />` or regular tags like `<Home></Home>`.
+  - Example:
+    ```jsx
+    import Home from './Home';
+
+    export default function App() {
+      return (
+        <>
+          <Header />
+          <Home />
+        </>
+      );
+    }
+    ```
+
+## props
+- Components can accept inputs called "props" (short for properties), which are passed as attributes. Props are read-only and can be used to customize the behavior or display of a component.
+  - Example:
+    ```jsx
+    export default function Hello({ fName, lName }) {
+      return <p>Hello {fName} {lName}!</p>;
+    }
+    
+    // Usage
+    <Hello fName="John" lName="Doe" />
+    ```
+
+## State and Hooks
+- State(useState): Components can have internal state managed by the `useState` hook. State allows components to manage dynamic data and re-render when the state changes.
+  - Example:
+    ```jsx
+    const [count, setCount] = useState(0);
+    return <button onClick={() => setCount(count + 1)}>Clicked {count} times</button>;
+    ```
+- useEffect: The `useEffect` hook is used to perform side effects in functional components. It runs after every render and can be used for data fetching, subscriptions, and DOM manipulations.
+  - Example:
+    ```jsx
+    useEffect(() => {
+      const timer = setInterval(() => setCount(c => c + 1), 1000);
+      return () => clearInterval(timer);  // Cleanup
+    }, []);
+    ```
+    > - The empty dependency array `[]` ensures that the effect runs only once after the initial render.
+    > - You can clean up side effects using the return function inside useEffect.
+    > - If you want the effect to run whenever a specific value changes, include that value in the dependency array.
+
+## Fragments and Empty Elements
+- JSX Fragments: You can use empty fragments (`<>...</>`) to avoid creating unnecessary wrapper elements in the DOM.
+  - Example:
+    ```jsx
+    return (
+      <>
+        <Header />
+        <Main />
+        <Footer />
+      </>
+    );
+    ```
+- Empty Elements: Self-closing tags like `<img />` and `<input />` are used for elements without children. They don't require a closing tag.
+  - Example:
+    ```jsx
+    return <img src="image.jpg" alt="Image" />;
+    ```
