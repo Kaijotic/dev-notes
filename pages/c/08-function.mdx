@@ -1,0 +1,47 @@
+## Function
+
+### Modular Design
+A design method that divides a system into smaller parts (modules) which can be independently created and then fit together.
+Some general guidelines for defining a module include:
+- The module is easy to upgrade.
+- The module contains a readable amount of code.
+- The module may be used as part of the solution to some other problem.
+- For a structured design, we stipulate that each module has one entry point and one exit point, each module is highly cohesive, and each module exhibits low coupling.
+
+<br />
+
+#### Cohesion
+It refers to how closely all the routines in a module support a central purpose. High cohesion means each module has a single, well-defined task.
+
+#### Coupling
+It refers to the interdependence between modules. Loose coupling means each module is independent as much as possible.
+
+> A better design is one that has high cohesion (each module does one thing well) and loose coupling (each module is independent).
+
+<br />
+
+### Functions
+#### Definition
+A function in C is a block of code that performs a specific task. It is the building block of modular programming.
+
+#### Basic Syntax
+- Function Definition: It includes the function's name, return type and parameters.
+```c
+// function declaration
+return_type function_name(parameter1, parameter2, ...){
+    // code
+    return value;
+}
+```
+
+- Function Call: It includes the function's name and arguments.
+```c
+// function call
+function_name(argument1, argument2, ...);
+```
+
+#### Pass by Value
+In C, arguments are passed to functions by value. It means that a copy of the data is made and used inside the function, not affecting the original data.
+
+#### Type Mismatch in Arguments and Parameters
+If the type of an argument does not match the type of the corresponding parameter in the function definition, the C compiler will try to convert the argument to the type of the parameter. If this is not possible, an error will occur.

@@ -1,0 +1,10 @@
+{
+  "index": "Introduction",
+  "c": "C#",
+  "leetcode": "Leetcode",
+  "error-notes": "Error Notes",
+  "about": {
+    "title": "About",
+    "type": "page"
+  }
+}
