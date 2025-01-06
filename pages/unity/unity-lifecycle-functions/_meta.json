@@ -1,0 +1,12 @@
+{
+    "01-initialization": "01-Initialization",
+    "02-physics-update": "02-Physics-Update",
+    "03-frame-update": "03-Frame-Update",
+    "03-rendering": "03-Rendering",
+    "05-collision-and-trigger-event": "05-Collision-and-Trigger-Event",
+    "06-input-event": "06-input-event",
+    "07-application-event": "07-Application-Event",
+    "08-disabling-and-destroying": "08-Disabling-and-Destroying",
+    "09-editor-specific-method": "09-Editor-Specific-Method",
+    "10-coroutine": "10-Coroutine"
+}
