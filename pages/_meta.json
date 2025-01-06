@@ -1,9 +1,7 @@
 {
   "index": "Introduction",
+  "c#": "C#",
   "unity": "Unity",
-  "c": "C#",
-  "leetcode": "Leetcode",
-  "error-notes": "Error Notes",
   "about": {
     "title": "About",
     "type": "page"
