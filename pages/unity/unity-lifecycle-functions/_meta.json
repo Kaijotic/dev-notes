@@ -2,7 +2,7 @@
     "01-initialization": "01-Initialization",
     "02-physics-update": "02-Physics-Update",
     "03-frame-update": "03-Frame-Update",
-    "03-rendering": "03-Rendering",
+    "04-rendering": "04-Rendering",
     "05-collision-and-trigger-event": "05-Collision-and-Trigger-Event",
     "06-input-event": "06-input-event",
     "07-application-event": "07-Application-Event",
